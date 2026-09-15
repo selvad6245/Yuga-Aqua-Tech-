@@ -1,0 +1,96 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #f2f7fb;
+  color: #222;
+}
+
+header {
+  background: #0066cc;
+  color: white;
+  text-align: center;
+  padding: 22px 10px;
+}
+
+header h1 {
+  font-size: 28px;
+  margin-bottom: 5px;
+}
+
+header p {
+  font-size: 15px;
+}
+
+main {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 10px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card h2 {
+  color: #0066cc;
+  margin-bottom: 15px;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  font-size: 16px;
+}
+
+button {
+  width: 100%;
+  padding: 13px;
+  border: none;
+  border-radius: 7px;
+  background: #0066cc;
+  color: white;
+  font-size: 17px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #004f9e;
+}
+
+.customer {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-top: 12px;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.customer h3 {
+  color: #0066cc;
+  margin-bottom: 8px;
+}
+
+.customer p {
+  margin: 5px 0;
+}
+
+.delete-btn {
+  margin-top: 10px;
+  background: #d32f2f;
+}
+
+.delete-btn:hover {
+  background: #a82020;
+}
