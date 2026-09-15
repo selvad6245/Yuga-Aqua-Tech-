@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yuga Aqua Tech - EMI Collection</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header>
+    <h1>Yuga Aqua Tech</h1>
+    <p>Finance & EMI Collection</p>
+  </header>
+
+  <main>
+
+    <section class="card">
+      <h2>Add Customer</h2>
+
+      <input type="text" id="name" placeholder="Customer Name">
+      <input type="tel" id="phone" placeholder="Phone Number">
+
+      <input type="number" id="amount" placeholder="Plant Amount (₹)">
+      <input type="number" id="advance" placeholder="Advance Amount (₹)">
+
+      <input type="number" id="interest" placeholder="Interest %">
+
+      <input type="number" id="months" placeholder="EMI Months">
+
+      <button onclick="addCustomer()">Add Customer</button>
+    </section>
+
+
+    <section class="card">
+      <h2>Customer List</h2>
+
+      <div id="customerList">
+        <p>No customers added yet.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
