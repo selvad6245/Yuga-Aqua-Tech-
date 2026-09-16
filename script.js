@@ -65,7 +65,7 @@ async function addCustomer() {
       name: name,
       phone: phone,
       amount: amount,
-      advance_amount: advance,
+      Advance_Amount: advance,
       interest: interest,
       months: months,
       monthly_emi: monthlyEMI,
@@ -121,7 +121,7 @@ async function loadCustomers() {
       <h3>${escapeHTML(customer.name)}</h3>
       <p>📱 Phone: ${escapeHTML(customer.phone)}</p>
       <p>💰 Plant Amount: ₹${Number(customer.amount).toFixed(2)}</p>
-      <p>💵 Advance: ₹${Number(customer.advance_amount).toFixed(2)}</p>
+      <p>💵 Advance: ₹${Number(customer.Advance_Amount).toFixed(2)}</p>
       <p>💳 Monthly EMI: ₹${Number(customer.monthly_emi).toFixed(2)}</p>
       <p>📅 EMI Months: ${customer.months}</p>
       <p>📌 Paid: ₹${Number(customer.paid_amount || 0).toFixed(2)}</p>
