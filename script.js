@@ -1,4 +1,12 @@
-function addCustomer() {
+const SUPABASE_URL = "https://mjljhmogiviwsraglwck.supabase.co";
+const SUPABASE_KEY = "sb_publishable_U4Z168UvRgiLWeK_ZWZmgQ_9Wcgpo3y";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+async function addCustomer() {
   const name = document.getElementById("name").value.trim();
   const phone = document.getElementById("phone").value.trim();
   const amount = Number(document.getElementById("amount").value);
@@ -17,47 +25,85 @@ function addCustomer() {
   }
 
   const balance = amount - advance;
-
-  // Simple interest calculation
   const interestAmount = balance * (interest / 100);
   const totalPayable = balance + interestAmount;
   const monthlyEMI = totalPayable / months;
 
-  const customerList = document.getElementById("customerList");
+  const { error } = await supabaseClient
+    .from("Customer")
+    .insert({
+      name: name,
+      phone: phone,
+      amount: amount,
+      advance_amount: advance,
+      interest: interest,
+      months: months,
+      monthly_emi: monthlyEMI,
+      paid_amount: advance,
+      status: "Active"
+    });
 
-  const customerCard = document.createElement("div");
-  customerCard.className = "customer-card";
-
-  customerCard.innerHTML = `
-    <h3>${escapeHTML(name)}</h3>
-    <p>📱 Phone: ${escapeHTML(phone)}</p>
-    <p>💰 Plant Amount: ₹${amount.toFixed(2)}</p>
-    <p>💵 Advance: ₹${advance.toFixed(2)}</p>
-    <p>📌 Balance: ₹${balance.toFixed(2)}</p>
-    <p>📈 Interest: ₹${interestAmount.toFixed(2)}</p>
-    <p>💳 Total Payable: ₹${totalPayable.toFixed(2)}</p>
-    <p>📅 EMI Months: ${months}</p>
-    <p>🔄 Monthly EMI: <strong>₹${monthlyEMI.toFixed(2)}</strong></p>
-    <button onclick="this.parentElement.remove()">Remove</button>
-  `;
-
-  if (customerList.innerText.includes("No customers added yet.")) {
-    customerList.innerHTML = "";
+  if (error) {
+    console.error(error);
+    alert("Customer save failed: " + error.message);
+    return;
   }
 
-  customerList.appendChild(customerCard);
+  alert("Customer saved successfully! ✅");
 
-  // Clear form
   document.getElementById("name").value = "";
   document.getElementById("phone").value = "";
   document.getElementById("amount").value = "";
   document.getElementById("advance").value = "";
   document.getElementById("interest").value = "";
   document.getElementById("months").value = "";
+
+  loadCustomers();
+}
+
+async function loadCustomers() {
+  const { data, error } = await supabaseClient
+    .from("Customer")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  const customerList = document.getElementById("customerList");
+
+  if (!data || data.length === 0) {
+    customerList.innerHTML = "<p>No customers added yet.</p>";
+    return;
+  }
+
+  customerList.innerHTML = "";
+
+  data.forEach(customer => {
+    const card = document.createElement("div");
+    card.className = "customer-card";
+
+    card.innerHTML = `
+      <h3>${escapeHTML(customer.name)}</h3>
+      <p>📱 Phone: ${escapeHTML(customer.phone)}</p>
+      <p>💰 Plant Amount: ₹${Number(customer.amount).toFixed(2)}</p>
+      <p>💵 Advance: ₹${Number(customer.advance_amount).toFixed(2)}</p>
+      <p>💳 Monthly EMI: ₹${Number(customer.monthly_emi).toFixed(2)}</p>
+      <p>📅 EMI Months: ${customer.months}</p>
+      <p>📌 Paid: ₹${Number(customer.paid_amount || 0).toFixed(2)}</p>
+      <p>🔵 Status: ${escapeHTML(customer.status || "Active")}</p>
+    `;
+
+    customerList.appendChild(card);
+  });
 }
 
 function escapeHTML(text) {
   const div = document.createElement("div");
-  div.textContent = text;
+  div.textContent = text ?? "";
   return div.innerHTML;
 }
+
+loadCustomers();
