@@ -64,7 +64,7 @@ async function addCustomer() {
     .insert({
       name: name,
       phone: phone,
-      amount: amount,
+      Amount: amount,
       Advance_Amount: advance,
       interest: interest,
       months: months,
