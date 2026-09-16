@@ -6,6 +6,36 @@ const supabaseClient = window.supabase.createClient(
   SUPABASE_KEY
 );
 
+// LOGIN
+async function loginUser() {
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value;
+
+  if (!email || !password) {
+    document.getElementById("loginMessage").textContent =
+      "Email and password enter pannunga.";
+    return;
+  }
+
+  const { error } = await supabaseClient.auth.signInWithPassword({
+    email: email,
+    password: password
+  });
+
+  if (error) {
+    document.getElementById("loginMessage").textContent =
+      "Login failed: " + error.message;
+    return;
+  }
+
+  document.getElementById("loginMessage").textContent =
+    "Login successful! ✅";
+
+  loadCustomers();
+}
+
+
+// ADD CUSTOMER
 async function addCustomer() {
   const name = document.getElementById("name").value.trim();
   const phone = document.getElementById("phone").value.trim();
@@ -61,6 +91,8 @@ async function addCustomer() {
   loadCustomers();
 }
 
+
+// LOAD CUSTOMERS
 async function loadCustomers() {
   const { data, error } = await supabaseClient
     .from("Customer")
@@ -100,10 +132,10 @@ async function loadCustomers() {
   });
 }
 
+
+// SECURITY
 function escapeHTML(text) {
   const div = document.createElement("div");
   div.textContent = text ?? "";
   return div.innerHTML;
 }
-
-loadCustomers();
